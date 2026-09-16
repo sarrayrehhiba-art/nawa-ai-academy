@@ -6,7 +6,7 @@
   <title>موقع الملابس الذكي — إعادة التوجيه</title>
   <script>
     (function () {
-      var base = '/nawa-ai-academy/';
+      var base = '/smart-clothing-store/';
       var current = window.location.pathname;
       var rest = current.indexOf(base) === 0 ? current.slice(base.length) : '';
       window.location.replace(base + (rest ? '?path=' + encodeURIComponent(rest) : '') + window.location.hash);

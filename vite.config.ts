@@ -206,7 +206,7 @@ function vitePluginStorageProxy(): Plugin {
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
 
 export default defineConfig({
-  base: process.env.GITHUB_ACTIONS ? "/nawa-ai-academy/" : "/",
+  base: process.env.GITHUB_ACTIONS ? "/smart-clothing-store/" : "/",
   plugins,
   resolve: {
     alias: {
