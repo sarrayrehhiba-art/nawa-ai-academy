@@ -175,7 +175,7 @@ function Home() {
         <div className="hero-art reveal reveal-delay-2">
           <div className="art-grid" />
           <div className="orbit orbit-a" /><div className="orbit orbit-b" /><div className="orbit orbit-c" />
-          <img src="/manus-storage/nawa-neural-orb_33835ee0.png" alt="كرة شبكية مضيئة ترمز للذكاء الاصطناعي" />
+          <img src={`${import.meta.env.BASE_URL}nawa-neural-orb.png`} alt="كرة شبكية مضيئة ترمز للذكاء الاصطناعي" />
           <div className="floating-chip chip-top"><Sparkles size={15} /><span>إبداع بلا حدود</span></div>
           <div className="floating-chip chip-bottom"><span className="mini-bars"><i /><i /><i /><i /></span><span>نمو متسارع</span><b>+84%</b></div>
           <div className="art-caption"><span>01</span><span>Neural<br />Thinking</span></div>
