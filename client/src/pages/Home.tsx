@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
-  ArrowLeft, Check, ChevronDown, Heart, Menu, Search, ShoppingBag, SlidersHorizontal, Sparkles, Star, X,
+  ArrowLeft, Check, ChevronDown, Copy, Heart, Menu, Search, ShoppingBag, SlidersHorizontal, Sparkles, Star, X,
 } from "lucide-react";
 
 type Product = {
@@ -31,8 +31,17 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [newsletter, setNewsletter] = useState("");
   const [toast, setToast] = useState("");
+  const [remaining, setRemaining] = useState({ days: 2, hours: 14, minutes: 36, seconds: 52 });
 
   const notify = (message: string) => { setToast(message); window.setTimeout(() => setToast(""), 2400); };
+  useEffect(() => {
+    const timer = window.setInterval(() => setRemaining((time) => {
+      const total = ((time.days * 24 + time.hours) * 60 + time.minutes) * 60 + time.seconds - 1;
+      if (total <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+      return { days: Math.floor(total / 86400), hours: Math.floor((total % 86400) / 3600), minutes: Math.floor((total % 3600) / 60), seconds: total % 60 };
+    }), 1000);
+    return () => window.clearInterval(timer);
+  }, []);
   const addToCart = (product: Product) => { setCart((items) => [...items, product]); setCartOpen(true); notify("تمت إضافة القطعة إلى حقيبتك"); };
   const toggleLike = (id: number) => setLiked((items) => items.includes(id) ? items.filter((item) => item !== id) : [...items, id]);
   const visibleProducts = useMemo(() => products.filter((product) => {
@@ -59,6 +68,8 @@ export default function Home() {
     </section>
 
     <section className="promise-row"><div><strong>خامات تحبها بشرتك</strong><span>أقمشة مختارة بعناية</span></div><div><strong>توصيل سريع</strong><span>لجميع مدن المملكة</span></div><div><strong>إرجاع سهل</strong><span>خلال ١٤ يومًا</span></div><div><strong>دفع آمن</strong><span>خيارات دفع متعددة</span></div></section>
+
+    <section className="promo-banner" id="offers"><div className="promo-copy"><span className="eyebrow"><Sparkles size={15} /> عرض موسمي محدود</span><h2>خصم ٢٥٪ على<br /><em>اختيارات الخريف.</em></h2><p>استخدمي كود <strong>KHZANA25</strong> عند الدفع واحصلي على خصمك قبل انتهاء الوقت.</p><button className="button cream" onClick={() => { navigator.clipboard?.writeText("KHZANA25"); notify("تم نسخ كود الخصم KHZANA25"); }}>انسخي الكود <Copy size={16} /></button><a href="#shop" className="promo-link">تسوقي العرض <ArrowLeft size={15} /></a></div><div className="countdown-wrap"><span>ينتهي العرض خلال</span><div className="countdown"><div><b>{String(remaining.days).padStart(2, "0")}</b><small>يوم</small></div><i>:</i><div><b>{String(remaining.hours).padStart(2, "0")}</b><small>ساعة</small></div><i>:</i><div><b>{String(remaining.minutes).padStart(2, "0")}</b><small>دقيقة</small></div><i>:</i><div><b>{String(remaining.seconds).padStart(2, "0")}</b><small>ثانية</small></div></div><div className="promo-stamp">٢٥٪<small>خصم</small></div></div></section>
 
     <section className="shop-section" id="shop"><div className="section-intro"><div><span className="eyebrow dark">تسوقي حسب ذوقك</span><h2>اختيارات <em>هذا الموسم</em></h2></div><button className="filter-button" onClick={() => notify("الفلاتر المتقدمة ستكون متاحة قريبًا")}><SlidersHorizontal size={17} /> تصفية وترتيب</button></div><div className="category-tabs">{categories.map((item) => <button key={item} className={category === item ? "active" : ""} onClick={() => setCategory(item)}>{item}</button>)}</div><div className="product-grid" id="new">{visibleProducts.map((product) => <article className="product-card" key={product.id}><div className="product-image"><img src={`${base}${product.image}`} alt={product.name} /><span className="product-badge">{product.badge || "مختار لك"}</span><button className={liked.includes(product.id) ? "like active" : "like"} onClick={() => toggleLike(product.id)} aria-label="إضافة للمفضلة"><Heart size={18} fill={liked.includes(product.id) ? "currentColor" : "none"} /></button><button className="quick-add" onClick={() => addToCart(product)}>أضيفي للحقيبة <ArrowLeft size={15} /></button></div><div className="product-details"><div><h3>{product.name}</h3><span>{product.color}</span></div><div className="rating"><Star size={13} fill="currentColor" /> {product.rating}</div></div><div className="price-row"><strong>{product.price} ر.س</strong>{product.oldPrice && <del>{product.oldPrice} ر.س</del>}</div></article>)}</div>{visibleProducts.length === 0 && <div className="empty-state">لم نجد قطعة بهذا الاسم. جربي كلمة أخرى.</div>}</section>
 
