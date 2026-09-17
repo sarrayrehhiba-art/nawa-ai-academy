@@ -32,6 +32,7 @@ export default function Home() {
   const [newsletter, setNewsletter] = useState("");
   const [toast, setToast] = useState("");
   const [remaining, setRemaining] = useState({ days: 2, hours: 14, minutes: 36, seconds: 52 });
+  const [videoMuted, setVideoMuted] = useState(true);
 
   const notify = (message: string) => { setToast(message); window.setTimeout(() => setToast(""), 2400); };
   useEffect(() => {
@@ -63,8 +64,9 @@ export default function Home() {
     </header>
 
     <section className="fashion-hero">
+      <video className="hero-video" autoPlay muted={videoMuted} loop playsInline poster={`${base}wardrobe-hero.jpg`} aria-label="إعلان ترويجي لموقع الملابس الذكي"><source src={`${base}smart-clothing-promo.mp4`} type="video/mp4" /></video>
       <img src={`${base}wardrobe-hero.jpg`} alt="إطلالة خريفية من مجموعة خزانة" />
-      <div className="hero-shade" /><div className="hero-copy"><span className="eyebrow"><Sparkles size={15} /> مجموعة الخريف ٢٠٢٦</span><h1>قطعة واحدة،<br /><em>إطلالة كاملة.</em></h1><p>نختار لك ملابس تعيش معك أكثر، وتقول الكثير عن ذوقك.</p><a className="button cream" href="#shop">اكتشفي المجموعة <ArrowLeft size={17} /></a></div><div className="hero-note">01 / 03<br /><span>ملابس مصمّمة<br />للحياة اليومية</span></div>
+      <div className="hero-shade" /><div className="hero-copy"><span className="eyebrow"><Sparkles size={15} /> مجموعة الخريف ٢٠٢٦</span><h1>قطعة واحدة،<br /><em>إطلالة كاملة.</em></h1><p>نختار لك ملابس تعيش معك أكثر، وتقول الكثير عن ذوقك.</p><a className="button cream" href="#shop">اكتشفي المجموعة <ArrowLeft size={17} /></a></div><button className="video-toggle" onClick={() => setVideoMuted(!videoMuted)} aria-label={videoMuted ? "تشغيل الصوت" : "كتم الصوت"}>{videoMuted ? "تشغيل الصوت" : "كتم الصوت"}</button><div className="hero-note">01 / 03<br /><span>ملابس مصمّمة<br />للحياة اليومية</span></div>
     </section>
 
     <section className="promise-row"><div><strong>خامات تحبها بشرتك</strong><span>أقمشة مختارة بعناية</span></div><div><strong>توصيل سريع</strong><span>لجميع مدن المملكة</span></div><div><strong>إرجاع سهل</strong><span>خلال ١٤ يومًا</span></div><div><strong>دفع آمن</strong><span>خيارات دفع متعددة</span></div></section>
